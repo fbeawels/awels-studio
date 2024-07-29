@@ -5,6 +5,7 @@ README.md
 pyproject.toml
 requirements.txt
 setup.py
+yarn.lock
 autogenstudio/__init__.py
 autogenstudio/chatmanager.py
 autogenstudio/cli.py
@@ -87,3 +88,4 @@ autogenstudio/web/ui/~partytown/debug/partytown-sw.js
 autogenstudio/web/ui/~partytown/debug/partytown-ww-atomics.js
 autogenstudio/web/ui/~partytown/debug/partytown-ww-sw.js
 autogenstudio/web/ui/~partytown/debug/partytown.js
+node_modules/.yarn-integrity

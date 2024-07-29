@@ -1,5 +1,5 @@
-.light {
-  --color-bg-primary: #000000;
+.dark {
+  --color-bg-primary: #111827;
   --color-bg-secondary: #1e293b;
   --color-bg-light: #27354c;
   --color-bg-tertiary: #374151;
@@ -12,7 +12,7 @@
   --color-border-accent: #945ce6;
 }
 
-.dark {
+.light {
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #edf2f7;
   --color-bg-light: #f9fafb;

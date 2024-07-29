@@ -1,0 +1,8 @@
+{
+    "user_id": "contact@awels-engineering.com",
+    "model": "gpt-4o",
+    "base_url": null,
+    "api_type": "open_ai",
+    "api_version": null,
+    "description": "OpenAI GPT-4o model"
+}
