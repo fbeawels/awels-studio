@@ -48,9 +48,9 @@ const Provider = ({ children }: any) => {
 
   // Modify logic here to add your own authentication
   const initUser = {
-    name: "Guest User",
-    email: "guestuser@gmail.com",
-    username: "guestuser",
+    name: "Awelito",
+    email: "contact@awels-engineering.com",
+    username: "awelito",
   };
   const [user, setUser] = useState<IUser | null>(initUser);
 

@@ -16,9 +16,9 @@ require("dotenv").config({
 const config: GatsbyConfig = {
   pathPrefix: `${process.env.PREFIX_PATH_VALUE}`,
   siteMetadata: {
-    title: `AutoGen Studio [Beta]`,
-    description: `Build Multi-Agent Apps`,
-    siteUrl: `http://tbd.place`,
+    title: `Awels Engineering Studio`,
+    description: `Build applications based on Droïds swarms.`,
+    siteUrl: `https://www.awels-engineering.com`,
   },
   flags: {
     LAZY_IMAGES: true,
