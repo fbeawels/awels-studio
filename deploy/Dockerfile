@@ -34,9 +34,9 @@ RUN useradd -m -u 1001 awels && \
 USER awels
 ENV HOME=/home/awels \
     PATH=/home/awels/.local/bin:$PATH \
-    AUTOGENSTUDIO_APPDIR=/home/awels/app
+    AUTOGENSTUDIO_APPDIR=/home/awels/
     
-WORKDIR $HOME/app
+WORKDIR $HOME
 
 EXPOSE 8081
 
