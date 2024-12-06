@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: franck-studio-svc
+  labels:
+    studio: franck-studio
+spec:
+  type: ClusterIP
+  selector:
+    app: franck-studio
+  ports:
+    - port: 8081
+      targetPort: 8081
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: franck-studio-data-pvc
+  labels:
+    studio: franck-studio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: franck-studio-studio-pvc
+  labels:
+    studio: franck-studio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: franck-studio-deployment
+  labels:
+    studio: franck-studio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: franck-studio
+  template:
+    metadata:
+      labels:
+        app: franck-studio
+    spec:
+      containers:
+      - name: awelsstudio
+        image: image-registry.openshift-image-registry.svc:5000/awels-studio/ai-studio:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: REACT_APP_DROID_HOST
+          value: "studio.awels.io"
+        - name: AUTOGENSTUDIO_APPDIR
+          value: "/home/awels/"
+        volumeMounts:
+        - mountPath: "/studio"
+          name: data-volume
+        - mountPath: "/home/franck/.autogenstudio"
+          name: studio-volume
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: franck-studio-data-pvc
+      - name: studio-volume
+        persistentVolumeClaim:
+          claimName: franck-studio-studio-pvc
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: franck-studio-deployment
+  labels:
+    studio: franck-studio
+spec:
+  to:
+    kind: Service
+    name: franck-studio-svc
+    weight: 100
+  port:
+    targetPort: 8081
+  wildcardPolicy: None
