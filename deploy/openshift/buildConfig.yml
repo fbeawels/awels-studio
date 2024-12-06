@@ -1,0 +1,29 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: ai-studio
+  namespace: awels-studio
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  namespace: awels-studio
+  name: ai-studio
+spec:
+  source:
+    type: Git
+    contextDir: /
+    git:
+      uri: 'https://github.com/fbeawels/awels-studio.git'
+      ref: master
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: deploy/Dockerfile
+      from:
+        kind: DockerImage
+        name: 'docker.io/library/python:3.10'
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'ai-studio:latest'
