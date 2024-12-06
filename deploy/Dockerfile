@@ -27,8 +27,9 @@ RUN cd frontend && \
     yarn build
 
 RUN useradd -m -u 1001 awels && \
-    mkdir /studio /.autogenstudio && \
-    chown -R awels.awels /studio /.autogenstudio
+    mkdir -p /studio /home/awels/app/.autogenstudio && \
+    chown -R awels.awels /studio /home/awels/app/.autogenstudio && \
+    chmod -R 666 /studio /home/awels/app/.autogenstudio
 
 USER awels
 ENV HOME=/home/awels \
