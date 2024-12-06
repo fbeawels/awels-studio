@@ -1,1 +1,3 @@
-.
+aiofiles
+autogen-agentchat
+PyYAML
