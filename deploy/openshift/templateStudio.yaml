@@ -17,7 +17,7 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-svc
     labels:
-      chatbots: ${APPLICATION_NAME}
+      studio: ${APPLICATION_NAME}
   spec:
     type: ClusterIP
     selector:
@@ -30,7 +30,19 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-data-pvc
     labels:
-      chatbots: ${APPLICATION_NAME}
+      studio: ${APPLICATION_NAME}
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: ${APPLICATION_NAME}-studio-pvc
+    labels:
+      studio: ${APPLICATION_NAME}
   spec:
     accessModes:
       - ReadWriteOnce
@@ -42,7 +54,7 @@ objects:
   metadata:
     name: ${APPLICATION_NAME}-deployment
     labels:
-      chatbots: ${APPLICATION_NAME}
+      studio: ${APPLICATION_NAME}
   spec:
     replicas: 1
     selector:
@@ -64,19 +76,26 @@ objects:
             value: "production"
           - name: REACT_APP_DROID_HOST
             value: "studio.awels.io"
+          - name: AUTOGENSTUDIO_APPDIR
+            value: "/home/awels/app"
           volumeMounts:
           - mountPath: "/studio"
             name: data-volume
+          - mountPath: "/.autogenstudio"
+            name: studio-volume
         volumes:
         - name: data-volume
           persistentVolumeClaim:
             claimName: ${APPLICATION_NAME}-data-pvc
+        - name: studio-volume
+          persistentVolumeClaim:
+            claimName: ${APPLICATION_NAME}-studio-pvc
 - kind: Route
   apiVersion: route.openshift.io/v1
   metadata:
     name: ${APPLICATION_NAME}-deployment
     labels:
-      chatbots: ${APPLICATION_NAME}
+      studio: ${APPLICATION_NAME}
   spec:
     to:
       kind: Service

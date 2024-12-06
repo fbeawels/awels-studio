@@ -26,7 +26,16 @@ RUN cd frontend && \
     yarn install && \
     yarn build
 
-RUN mkdir /studio
+RUN useradd -m -u 1001 awels && \
+    mkdir /studio /.autogenstudio && \
+    chown -R awels.awels /studio /.autogenstudio
+
+USER awels
+ENV HOME=/home/awels \
+    PATH=/home/awels/.local/bin:$PATH \
+    AUTOGENSTUDIO_APPDIR=/home/awels/app
+    
+WORKDIR $HOME/app
 
 EXPOSE 8081
 
