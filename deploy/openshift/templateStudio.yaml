@@ -1,4 +1,4 @@
-piVersion: template.openshift.io/v1
+apiVersion: template.openshift.io/v1
 kind: Template
 labels: 
   app: awels-studio
