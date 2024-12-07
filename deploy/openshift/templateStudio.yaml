@@ -3,7 +3,7 @@ kind: Template
 labels: 
   app: awels-studio
   template: awels-studio
-  message: This template creates a new AI Studio from Awels Engineering.
+message: This template creates a new AI Studio from Awels Engineering.
 metadata:
   name: awels-studio
   annotations:
@@ -15,22 +15,22 @@ objects:
 - apiVersion: v1
   kind: Service
   metadata:
-    name: ${APPLICATION_NAME}-svc
+    name: ${STUDIO_NAME}-svc
     labels:
-      studio: ${APPLICATION_NAME}
+      studio: ${STUDIO_NAME}
   spec:
     type: ClusterIP
     selector:
-      app: ${APPLICATION_NAME}
+      app: ${STUDIO_NAME}
     ports:
-      - port: 8081
-        targetPort: 8081
+    - port: 8081
+      targetPort: 8081
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: ${APPLICATION_NAME}-data-pvc
+    name: ${STUDIO_NAME}-data-pvc
     labels:
-      studio: ${APPLICATION_NAME}
+      studio: ${STUDIO_NAME}
   spec:
     accessModes:
       - ReadWriteOnce
@@ -40,9 +40,9 @@ objects:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: ${APPLICATION_NAME}-studio-pvc
+    name: ${STUDIO_NAME}-studio-pvc
     labels:
-      studio: ${APPLICATION_NAME}
+      studio: ${STUDIO_NAME}
   spec:
     accessModes:
       - ReadWriteOnce
@@ -52,18 +52,18 @@ objects:
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: ${APPLICATION_NAME}-deployment
+    name: ${STUDIO_NAME}-deployment
     labels:
-      studio: ${APPLICATION_NAME}
+      studio: ${STUDIO_NAME}
   spec:
     replicas: 1
     selector:
       matchLabels:
-        app: ${APPLICATION_NAME}
+        app: ${STUDIO_NAME}
     template:
       metadata:
         labels:
-          app: ${APPLICATION_NAME}
+          app: ${STUDIO_NAME}
       spec:
         containers:
         - name: awelsstudio
@@ -77,35 +77,35 @@ objects:
           - name: REACT_APP_DROID_HOST
             value: "studio.awels.io"
           - name: AUTOGENSTUDIO_APPDIR
-            value: "/home/awels/app"
+            value: "/home/awels/"
           volumeMounts:
           - mountPath: "/studio"
             name: data-volume
-          - mountPath: "/.autogenstudio"
+          - mountPath: "/home/awels/.autogenstudio"
             name: studio-volume
         volumes:
         - name: data-volume
           persistentVolumeClaim:
-            claimName: ${APPLICATION_NAME}-data-pvc
+            claimName: ${STUDIO_NAME}-data-pvc
         - name: studio-volume
           persistentVolumeClaim:
-            claimName: ${APPLICATION_NAME}-studio-pvc
+            claimName: ${STUDIO_NAME}-studio-pvc
 - kind: Route
   apiVersion: route.openshift.io/v1
   metadata:
-    name: ${APPLICATION_NAME}-deployment
+    name: ${STUDIO_NAME}
     labels:
-      studio: ${APPLICATION_NAME}
+      studio: ${STUDIO_NAME}
   spec:
     to:
       kind: Service
-      name: ${APPLICATION_NAME}-svc
+      name: ${STUDIO_NAME}-svc
       weight: 100
     port:
       targetPort: 8081
     wildcardPolicy: None
 parameters:
-- name: APPLICATION_NAME
+- name: STUDIO_NAME
   description: The name of the Studio app you’d like to create
   displayName: Awels Studio Application Name
   required: true
