@@ -67,7 +67,7 @@ objects:
       spec:
         containers:
         - name: awelsstudio
-          image: image-registry.openshift-image-registry.svc:5000/awels-studio/ai-studio:latest
+          image: image-registry.openshift-image-registry.svc:5000/ai-studio/ai-studio:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 8081

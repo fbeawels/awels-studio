@@ -2,12 +2,10 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: ai-studio
-  namespace: awels-studio
 ---
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  namespace: awels-studio
   name: ai-studio
 spec:
   source:
